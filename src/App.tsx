@@ -1,26 +1,17 @@
-import React, { Component } from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import EquipmentList from './components/EquipmentList';
+import EquipmentDetail from './components/EquipmentDetail';
+import React from 'react';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
-}
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<EquipmentList />} />
+        <Route path="/equipments/:id" element={<EquipmentDetail />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
