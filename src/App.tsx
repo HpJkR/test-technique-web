@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import EquipmentList from './components/EquipmentList';
-import EquipmentDetail from './components/EquipmentDetail';
+import EquipmentList from './features/equipment/equipment-list/EquipmentList';
+import EquipmentDetail from './features/equipment/equipment-detail/EquipmentDetail';
 import React from 'react';
 
 const App: React.FC = () => {
