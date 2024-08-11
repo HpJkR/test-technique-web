@@ -1,4 +1,4 @@
-import { database } from './firebase';
+import { database } from '../firebase';
 
 interface Equipment {
   id: string;
@@ -21,7 +21,8 @@ interface Checkpoint {
   equipmentKey: string;
   name: string;
   fault?: string;
-  recommendation?: string;
+  recommandation?: string;
+  photo?: string;
 }
 
 export const fetchEquipments = async (): Promise<Equipment[]> => {
@@ -59,7 +60,7 @@ export const fetchEquipments = async (): Promise<Equipment[]> => {
 };
 
 export const fetchCheckpointsByEquipment = async (
-  equipmentKey: string,
+  equipmentKey: string
 ): Promise<Checkpoint[]> => {
   try {
     const snapshot = await database.ref('Checkpoints').once('value');
