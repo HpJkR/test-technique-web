@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { CircularProgress, Container, Grid, Typography } from '@mui/material';
+import {
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import EquipmentCard from './list-component/EquipmentCard';
 import SearchBar from '../../../components/ui/SearchBar';
 import PaginationControls from '../../../components/ui/PaginationControls';
@@ -8,6 +15,9 @@ import { useEquipmentStore } from '../store/useEquipmentStore';
 const ITEMS_PER_PAGE = 12;
 
 const EquipmentList: React.FC = () => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   const { equipments, searchTerm, loading, fetchEquipments, setSearchTerm } =
     useEquipmentStore();
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -54,7 +64,7 @@ const EquipmentList: React.FC = () => {
 
   return (
     <Container
-      className="py-8"
+      className="py-0 md:py-8 md:mt-4 mb-4 md:mb-0"
       maxWidth="xl"
       sx={{
         display: 'flex',
@@ -65,7 +75,11 @@ const EquipmentList: React.FC = () => {
       <SearchBar
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        label="Rechercher par nom, bâtiment, domaine, niveau, local, marque, modèle ou numéro de série"
+        label={
+          isSmallScreen
+            ? 'Rechercher par nom, domaine...'
+            : 'Rechercher par nom, bâtiment, domaine, niveau, local, marque, modèle ou numéro de série'
+        }
       />
       <div
         style={{
@@ -82,7 +96,7 @@ const EquipmentList: React.FC = () => {
             Aucun équipements trouvé
           </Typography>
         ) : (
-          <Grid container spacing={3} py={2} px={8}>
+          <Grid container spacing={3} py={2} className="md:px-8">
             {paginatedEquipments.map((equipment) => (
               <Grid item xs={12} sm={6} md={4} key={equipment.id}>
                 <EquipmentCard equipment={equipment} />

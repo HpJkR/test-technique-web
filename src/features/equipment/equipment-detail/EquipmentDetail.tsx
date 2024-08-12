@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import EquipmentHeader from './detail-components/equipmentSection/EquipmentHeader';
-import EquipmentCard from './detail-components/equipmentSection/EquipmentCard';
-import CheckpointList from './detail-components/checkpointSection/CheckpointList';
-import ImageDialog from './detail-components/equipmentSection/ImageDialog';
+import EquipmentHeader from './detail-components/EquipmentHeader';
+import EquipmentCard from './detail-components/equipment-section/EquipmentCard';
+import CheckpointList from './detail-components/checkpoint-section/CheckpointList';
+import ImageDialog from './detail-components/equipment-section/ImageDialog';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useEquipmentStore } from '../store/useEquipmentStore';
 import { Equipment } from '@/firebase/type';
@@ -71,9 +71,9 @@ const EquipmentDetail: React.FC = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col p-8">
+    <div className="h-screen flex flex-col p-4 pt-0 md:p-8">
       <EquipmentHeader title={equipment.name} />
-      <div className="flex flex-col md:flex-row flex-grow overflow-hidden">
+      <div className="flex flex-col md:flex-row flex-grow md:overflow-hidden">
         <div className="w-full h-fit flex justify-center md:w-1/2 p-4 mt-4">
           <EquipmentCard
             equipment={equipment}

@@ -59,7 +59,7 @@ const CheckpointDialog: React.FC<CheckpointDialogProps> = ({
               </Typography>
             )}
             {checkpoint.recommandation && (
-              <div className="p-2 bg-gray-400 rounded-md">
+              <div className="p-2 border rounded-md">
                 <Typography
                   variant="body2"
                   fontSize={'1rem'}

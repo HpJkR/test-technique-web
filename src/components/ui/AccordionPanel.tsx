@@ -58,7 +58,9 @@ const AccordionPanel: React.FC<AccordionPanelProps> = ({
     <AccordionSummary aria-controls={`${title}-content`} id={`${title}-header`}>
       <Typography fontWeight={'bold'}>{title}</Typography>
     </AccordionSummary>
-    <AccordionDetails>{children}</AccordionDetails>
+    <AccordionDetails className="flex flex-col gap-2">
+      {children}
+    </AccordionDetails>
   </Accordion>
 );
 

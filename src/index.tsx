@@ -17,7 +17,7 @@ const RootApp: React.FC = () => {
   return (
     <ThemeProvider theme={getTheme(mode)}>
       <CssBaseline />
-      <div className="fixed top-2 right-10">
+      <div className="flex justify-end px-4 pt-4 md:fixed md:top-2 md:right-10">
         <ThemeToggle mode={mode} onToggle={handleThemeChange} />
       </div>
       <App />

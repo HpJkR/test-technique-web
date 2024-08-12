@@ -36,13 +36,13 @@ const CheckpointList: React.FC<{ checkpoints: Checkpoint[] }> = ({
         variant="h5"
         component="h2"
         fontWeight={'bold'}
-        fontSize={'2.25rem'}
-        className="sticky top-0 p-4"
+        className="p-2 md:p-4 bg-background"
+        sx={{ fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}
       >
         Points de contrôles
       </Typography>
       <Divider />
-      <div className="flex-grow overflow-y-auto p-4">
+      <div className="flex-grow overflow-y-auto p-0 pt-4 md:p-4">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <CircularProgress />
