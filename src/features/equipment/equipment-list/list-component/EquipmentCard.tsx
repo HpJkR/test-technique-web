@@ -1,15 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import DomainIcon from '../../../../components/DomainIcon';
-
-interface Equipment {
-  id: string;
-  name: string;
-  domain: string;
-  photo: string;
-  nbFaults: number;
-}
+import DomainIcon from '../../../../components/ui/DomainIcon';
+import { Equipment } from '@/firebase/type';
 
 interface EquipmentCardProps {
   equipment: Equipment;

@@ -5,7 +5,7 @@ import App from './App';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import getTheme from './theme';
 import * as serviceWorker from './serviceWorker';
-import ThemeToggle from './components/ThemeToggle';
+import ThemeToggle from './components/ui/ThemeToggle';
 
 const RootApp: React.FC = () => {
   const [mode, setMode] = useState<'light' | 'dark'>('light');

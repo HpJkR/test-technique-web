@@ -1,63 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import EquipmentHeader from './detail-components/EquipmentHeader';
-import EquipmentCard from './detail-components/EquipmentCard';
-import CheckpointList from './detail-components/CheckpointList';
-import ImageDialog from './detail-components/ImageDialog';
-import {
-  fetchCheckpointsByEquipment,
-  fetchEquipments,
-} from '../../../firebase/service';
+import EquipmentHeader from './detail-components/equipmentSection/EquipmentHeader';
+import EquipmentCard from './detail-components/equipmentSection/EquipmentCard';
+import CheckpointList from './detail-components/checkpointSection/CheckpointList';
+import ImageDialog from './detail-components/equipmentSection/ImageDialog';
 import { Box, CircularProgress, Typography } from '@mui/material';
-
-interface Equipment {
-  id: string;
-  name: string;
-  domain: string;
-  photo: string;
-  building: string;
-  niveau: string;
-  local: string;
-  brand: string;
-  model: string;
-  serialNumber: string;
-  quantity: number;
-  status: string;
-  notes: string;
-  nbFaults: number;
-}
-
-export interface Checkpoint {
-  equipmentKey: string;
-  name: string;
-  fault?: string;
-  recommandation?: string;
-  photo?: string;
-}
+import { useEquipmentStore } from '../store/useEquipmentStore';
+import { Equipment } from '@/firebase/type';
 
 const EquipmentDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const {
+    equipments,
+    checkpoints,
+    fetchEquipments,
+    fetchCheckpointsByEquipmentId,
+    loading,
+  } = useEquipmentStore();
   const [equipment, setEquipment] = useState<Equipment | null>(null);
-  const [checkpoints, setCheckpoints] = useState<Checkpoint[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (equipments.length === 0) {
+      fetchEquipments();
+    }
+  }, [equipments.length, fetchEquipments]);
+
+  useEffect(() => {
     const loadEquipmentAndCheckpoints = async () => {
-      if (id) {
-        const equipments = await fetchEquipments();
+      if (id && equipments.length > 0) {
         const selectedEquipment = equipments.find((e) => e.id === id);
         if (selectedEquipment) {
           setEquipment(selectedEquipment);
-          const cp = await fetchCheckpointsByEquipment(id);
-          setCheckpoints(cp);
+          await fetchCheckpointsByEquipmentId(id);
         } else {
           console.error(`No equipment found with id: ${id}`);
         }
       }
     };
+
     loadEquipmentAndCheckpoints();
-  }, [id]);
+  }, [id, equipments, fetchCheckpointsByEquipmentId]);
 
   const handleImageClick = (photoUrl: string) => {
     setSelectedImage(photoUrl);
@@ -69,7 +53,7 @@ const EquipmentDetail: React.FC = () => {
     setSelectedImage(null);
   };
 
-  if (!equipment) {
+  if (loading || !equipment) {
     return (
       <Box
         display="flex"
@@ -92,19 +76,7 @@ const EquipmentDetail: React.FC = () => {
       <div className="flex flex-col md:flex-row flex-grow overflow-hidden">
         <div className="w-full h-fit flex justify-center md:w-1/2 p-4 mt-4">
           <EquipmentCard
-            photo={equipment.photo}
-            name={equipment.name}
-            domain={equipment.domain}
-            building={equipment.building}
-            local={equipment.local}
-            niveau={equipment.niveau}
-            brand={equipment.brand}
-            model={equipment.model}
-            serialNumber={equipment.serialNumber}
-            status={equipment.status}
-            notes={equipment.notes}
-            quantity={equipment.quantity.toString()}
-            nbFaults={equipment.nbFaults}
+            equipment={equipment}
             onImageClick={handleImageClick}
           />
         </div>

@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import { Checkpoint } from '../EquipmentDetail';
+import { Checkpoint } from '@/firebase/type';
 
 interface CheckpointCardProps {
   checkpoint: Checkpoint;
