@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CircularProgress, Divider, Grid, Typography } from '@mui/material';
 import CheckpointCard from './CheckpointCard';
 import CheckpointDialog from './CheckpointDialog';
-import { Checkpoint } from '../EquipmentDetail';
+import { Checkpoint } from '@/firebase/type';
 
 const CheckpointList: React.FC<{ checkpoints: Checkpoint[] }> = ({
   checkpoints,

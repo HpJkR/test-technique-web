@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Checkpoint } from '../EquipmentDetail';
+import { Checkpoint } from '@/firebase/type';
 
 interface CheckpointDialogProps {
   open: boolean;

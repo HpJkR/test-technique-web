@@ -8,42 +8,23 @@ import {
   Typography,
 } from '@mui/material';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import AccordionPanel from '../../../../components/AccordionPanel';
+import AccordionPanel from '../../../../../components/ui/AccordionPanel';
+import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone';
+import DomainAddTwoToneIcon from '@mui/icons-material/DomainAddTwoTone';
+import LayersTwoToneIcon from '@mui/icons-material/LayersTwoTone';
+import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
+import { Equipment } from '@/firebase/type';
 
 interface EquipmentCardProps {
-  photo: string;
-  name: string;
-  domain: string;
-  building: string;
-  local: string;
-  niveau: string;
-  brand: string;
-  model: string;
-  serialNumber: string;
-  status: string;
-  notes: string;
-  quantity: string;
-  nbFaults: number;
-  onImageClick: (photoUrl: string) => void;
+  equipment: Equipment;
+  onImageClick: (photo: string) => void;
 }
 
 const getValueOrUnknown = (value: string | undefined) =>
   value ? value : 'Inconnu';
 
 const EquipmentCard: React.FC<EquipmentCardProps> = ({
-  photo,
-  name,
-  domain,
-  building,
-  local,
-  niveau,
-  brand,
-  model,
-  serialNumber,
-  status,
-  notes,
-  quantity,
-  nbFaults,
+  equipment,
   onImageClick,
 }) => {
   const [expanded, setExpanded] = useState<string | false>('panel1');
@@ -53,22 +34,18 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
       setExpanded(newExpanded ? panel : false);
     };
 
-  const badgeBgClass = nbFaults === 0 ? 'bg-green-500' : 'bg-red-500';
+  const badgeBgClass = equipment.nbFaults === 0 ? 'bg-green-500' : 'bg-red-500';
 
   return (
     <Card>
       <Grid container>
-        <Grid
-          item
-          xs={6}
-          style={{ position: 'relative', display: 'flex', padding: '16px' }}
-        >
-          <CardActionArea onClick={() => onImageClick(photo)}>
+        <Grid item xs={6} className="relative p-4">
+          <CardActionArea onClick={() => onImageClick(equipment.photo)}>
             <CardMedia
               component="img"
               height="300"
-              image={photo}
-              alt={name}
+              image={equipment.photo}
+              alt={equipment.name}
               sx={{ cursor: 'pointer' }}
             />
             <div
@@ -95,11 +72,11 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
         <Grid item xs={6}>
           <CardContent className="flex flex-col gap-2">
             <Typography variant="h5" component="div" className="mb-2">
-              {getValueOrUnknown(name)}
+              {getValueOrUnknown(equipment.name)}
             </Typography>
             <div className={`${badgeBgClass} w-fit p-2 rounded-md mt-2`}>
               <Typography variant="body2" color="white" fontWeight="bold">
-                Défauts: {nbFaults}
+                Défauts: {equipment.nbFaults}
               </Typography>
             </div>
             <div>
@@ -109,16 +86,23 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
                 title="Informations"
               >
                 <Typography>
-                  <strong>Domaine :</strong> {getValueOrUnknown(domain)}
+                  <DomainAddTwoToneIcon className="mr-2" />
+                  <strong>Domaine :</strong>{' '}
+                  {getValueOrUnknown(equipment.domain)}
                 </Typography>
                 <Typography>
-                  <strong>Batiment :</strong> {getValueOrUnknown(building)}
+                  <BusinessTwoToneIcon className="mr-2" />
+                  <strong>Bâtiment :</strong>{' '}
+                  {getValueOrUnknown(equipment.building)}
                 </Typography>
                 <Typography>
-                  <strong>Niveau :</strong> {getValueOrUnknown(niveau)}
+                  <LayersTwoToneIcon className="mr-2" />
+                  <strong>Niveau :</strong>{' '}
+                  {getValueOrUnknown(equipment.niveau)}
                 </Typography>
                 <Typography>
-                  <strong>Local :</strong> {getValueOrUnknown(local)}
+                  <RoomTwoToneIcon className="mr-2" />
+                  <strong>Local :</strong> {getValueOrUnknown(equipment.local)}
                 </Typography>
               </AccordionPanel>
               <AccordionPanel
@@ -127,26 +111,28 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
                 title="Caractéristiques"
               >
                 <Typography>
-                  <strong>Marque :</strong> {getValueOrUnknown(brand)}
+                  <strong>Marque :</strong> {getValueOrUnknown(equipment.brand)}
                 </Typography>
                 <Typography>
-                  <strong>Modèle :</strong> {getValueOrUnknown(model)}
+                  <strong>Modèle :</strong> {getValueOrUnknown(equipment.model)}
                 </Typography>
                 <Typography>
                   <strong>Numéro de série :</strong>{' '}
-                  {getValueOrUnknown(serialNumber)}
+                  {getValueOrUnknown(equipment.serialNumber)}
                 </Typography>
                 <Typography>
-                  <strong>Quantité :</strong> {getValueOrUnknown(quantity)}
+                  <strong>Quantité :</strong>{' '}
+                  {getValueOrUnknown(equipment.quantity.toString())}
                 </Typography>
               </AccordionPanel>
             </div>
             <Typography variant="body2" fontSize={'1rem'}>
               <strong>Dernier statut constaté :</strong>{' '}
-              {getValueOrUnknown(status)}
+              {getValueOrUnknown(equipment.status)}
             </Typography>
             <Typography variant="body2" fontSize={'1rem'}>
-              <strong>Commentaire :</strong> {notes ? notes : 'Aucun'}
+              <strong>Commentaire :</strong>{' '}
+              {equipment.notes ? equipment.notes : 'Aucun'}
             </Typography>
           </CardContent>
         </Grid>

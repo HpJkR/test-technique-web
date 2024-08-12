@@ -1,46 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CircularProgress, Container, Grid, Typography } from '@mui/material';
-import { fetchEquipments } from '../../../firebase/service';
 import EquipmentCard from './list-component/EquipmentCard';
-import SearchBar from '../../../components/SearchBar';
-import PaginationControls from '../../../components/PaginationControls';
-
-interface Equipment {
-  id: string;
-  name: string;
-  building: string;
-  domain: string;
-  niveau: string;
-  local: string;
-  brand: string;
-  model: string;
-  serialNumber: string;
-  photo: string;
-  nbFaults: number;
-}
+import SearchBar from '../../../components/ui/SearchBar';
+import PaginationControls from '../../../components/ui/PaginationControls';
+import { useEquipmentStore } from '../store/useEquipmentStore';
 
 const ITEMS_PER_PAGE = 12;
 
 const EquipmentList: React.FC = () => {
-  const [equipments, setEquipments] = useState<Equipment[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const { equipments, searchTerm, loading, fetchEquipments, setSearchTerm } =
+    useEquipmentStore();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const loadEquipments = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchEquipments();
-        setEquipments(data);
-      } catch (error) {
-        console.error('Failed to fetch equipments', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadEquipments();
-  }, []);
+    fetchEquipments();
+  }, [fetchEquipments]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -59,8 +33,8 @@ const EquipmentList: React.FC = () => {
           equipment.model,
           equipment.serialNumber,
         ].some((field) =>
-          field.toLowerCase().includes(searchTerm.toLowerCase()),
-        ),
+          field.toLowerCase().includes(searchTerm.toLowerCase())
+        )
       )
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [equipments, searchTerm]);
@@ -68,7 +42,7 @@ const EquipmentList: React.FC = () => {
   const paginatedEquipments = useMemo(() => {
     return filteredEquipments.slice(
       (currentPage - 1) * ITEMS_PER_PAGE,
-      currentPage * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
     );
   }, [filteredEquipments, currentPage]);
 

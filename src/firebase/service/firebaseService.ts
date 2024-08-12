@@ -1,34 +1,14 @@
 import { database } from '../firebase';
+import { Checkpoint, Equipment } from '../type';
 
-interface Equipment {
-  id: string;
-  name: string;
-  building: string;
-  domain: string;
-  niveau: string;
-  local: string;
-  photo: string;
-  brand: string;
-  model: string;
-  serialNumber: string;
-  quantity: number;
-  status: string;
-  notes: string;
-  nbFaults: number;
-}
-
-interface Checkpoint {
-  equipmentKey: string;
-  name: string;
-  fault?: string;
-  recommandation?: string;
-  photo?: string;
+interface FirebaseData<T> {
+  [key: string]: T;
 }
 
 export const fetchEquipments = async (): Promise<Equipment[]> => {
   try {
     const snapshot = await database.ref('Equipments').once('value');
-    const data = snapshot.val();
+    const data: FirebaseData<Partial<Equipment>> = snapshot.val();
 
     if (!data || typeof data !== 'object') return [];
 
@@ -60,20 +40,23 @@ export const fetchEquipments = async (): Promise<Equipment[]> => {
 };
 
 export const fetchCheckpointsByEquipment = async (
-  equipmentKey: string
+  equipmentKey: string,
 ): Promise<Checkpoint[]> => {
   try {
     const snapshot = await database.ref('Checkpoints').once('value');
-    const data = snapshot.val();
+    const data: FirebaseData<Partial<Checkpoint>> = snapshot.val();
     console.log('Fetched checkpoints data:', data);
 
     if (data && typeof data === 'object') {
-      return Object.values(data).filter((checkpoint: any) => {
-        if (typeof checkpoint === 'object' && checkpoint !== null) {
-          return checkpoint.equipmentKey === equipmentKey;
-        }
-        return false;
-      }) as Checkpoint[];
+      return Object.values(data).filter(
+        (checkpoint): checkpoint is Checkpoint => {
+          return (
+            typeof checkpoint === 'object' &&
+            checkpoint !== null &&
+            checkpoint.equipmentKey === equipmentKey
+          );
+        },
+      );
     }
 
     return [];
