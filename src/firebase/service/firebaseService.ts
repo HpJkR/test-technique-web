@@ -40,7 +40,7 @@ export const fetchEquipments = async (): Promise<Equipment[]> => {
 };
 
 export const fetchCheckpointsByEquipment = async (
-  equipmentKey: string,
+  equipmentKey: string
 ): Promise<Checkpoint[]> => {
   try {
     const snapshot = await database.ref('Checkpoints').once('value');
@@ -55,7 +55,7 @@ export const fetchCheckpointsByEquipment = async (
             checkpoint !== null &&
             checkpoint.equipmentKey === equipmentKey
           );
-        },
+        }
       );
     }
 

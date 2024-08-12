@@ -3,6 +3,7 @@ import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import DomainIcon from '../../../../components/ui/DomainIcon';
 import { Equipment } from '@/firebase/type';
+import FaultsBadge from '../../../../components/ui/FaultsBadge';
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -14,8 +15,6 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment }) => {
   const handleClick = () => {
     navigate(`/equipments/${equipment.id}`);
   };
-
-  const badgeBgClass = equipment.nbFaults === 0 ? 'bg-green-500' : 'bg-red-500';
 
   return (
     <Card
@@ -52,11 +51,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment }) => {
             {equipment.domain}
           </Typography>
         </div>
-        <div className={`${badgeBgClass} w-fit p-2 rounded-md`}>
-          <Typography variant="body2" color="white" fontWeight="bold">
-            Défauts: {equipment.nbFaults}
-          </Typography>
-        </div>
+        <FaultsBadge nbFaults={equipment.nbFaults} />
       </CardContent>
     </Card>
   );
