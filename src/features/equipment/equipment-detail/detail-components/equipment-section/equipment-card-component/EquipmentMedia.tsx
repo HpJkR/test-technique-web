@@ -9,9 +9,9 @@ interface EquipmentMediaProps {
 }
 
 const EquipmentMedia: React.FC<EquipmentMediaProps> = ({
-                                                         equipment,
-                                                         onClick,
-                                                       }) => {
+  equipment,
+  onClick,
+}) => {
   return (
     <CardActionArea onClick={onClick} sx={{ position: 'relative' }}>
       <CardMedia

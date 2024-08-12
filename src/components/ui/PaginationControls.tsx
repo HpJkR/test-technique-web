@@ -10,11 +10,11 @@ interface PaginationControlsProps {
 }
 
 const PaginationControls: React.FC<PaginationControlsProps> = ({
-                                                                 currentPage,
-                                                                 totalPages,
-                                                                 onPageChange,
-                                                                 pageRange = 5,
-                                                               }) => {
+  currentPage,
+  totalPages,
+  onPageChange,
+  pageRange = 5,
+}) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
