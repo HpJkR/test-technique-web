@@ -12,11 +12,10 @@ import SearchBar from '../../../components/ui/SearchBar';
 import PaginationControls from '../../../components/ui/PaginationControls';
 import { useEquipmentStore } from '../store/useEquipmentStore';
 
-const ITEMS_PER_PAGE = 12;
-
 const EquipmentList: React.FC = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const ITEMS_PER_PAGE = isSmallScreen ? 6 : 12;
 
   const { equipments, searchTerm, loading, fetchEquipments, setSearchTerm } =
     useEquipmentStore();
@@ -31,40 +30,27 @@ const EquipmentList: React.FC = () => {
   }, [searchTerm]);
 
   const filteredEquipments = useMemo(() => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+
     return equipments
       .filter((equipment) =>
-        [
-          equipment.name,
-          equipment.building,
-          equipment.domain,
-          equipment.niveau,
-          equipment.local,
-          equipment.brand,
-          equipment.model,
-          equipment.serialNumber,
-        ].some((field) =>
-          field.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+        Object.values({
+          name: equipment.name,
+          building: equipment.building,
+          domain: equipment.domain,
+          niveau: equipment.niveau,
+          local: equipment.local,
+          brand: equipment.brand,
+          model: equipment.model,
+          serialNumber: equipment.serialNumber,
+        }).some((field) => field?.toLowerCase().includes(lowerSearchTerm))
       )
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [equipments, searchTerm]);
 
-  const paginatedEquipments = useMemo(() => {
-    return filteredEquipments.slice(
-      (currentPage - 1) * ITEMS_PER_PAGE,
-      currentPage * ITEMS_PER_PAGE
-    );
-  }, [filteredEquipments, currentPage]);
-
-  const totalPages = Math.ceil(filteredEquipments.length / ITEMS_PER_PAGE);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage((prevPage) => (page !== prevPage ? page : prevPage));
-  };
-
   return (
     <Container
-      className="py-0 md:py-8 md:mt-4 mb-4 md:mb-0"
+      className="py-0 md:py-8 mb-4 md:mb-0"
       maxWidth="xl"
       sx={{
         display: 'flex',
@@ -93,23 +79,29 @@ const EquipmentList: React.FC = () => {
           <CircularProgress />
         ) : filteredEquipments.length === 0 ? (
           <Typography variant="h6" color="textSecondary">
-            Aucun équipements trouvé
+            Aucun équipement trouvé
           </Typography>
         ) : (
           <Grid container spacing={3} py={2} className="md:px-8">
-            {paginatedEquipments.map((equipment) => (
-              <Grid item xs={12} sm={6} md={4} key={equipment.id}>
-                <EquipmentCard equipment={equipment} />
-              </Grid>
-            ))}
+            {filteredEquipments
+              .slice(
+                (currentPage - 1) * ITEMS_PER_PAGE,
+                currentPage * ITEMS_PER_PAGE
+              )
+              .map((equipment) => (
+                <Grid item xs={12} sm={6} md={4} key={equipment.id}>
+                  <EquipmentCard equipment={equipment} />
+                </Grid>
+              ))}
           </Grid>
         )}
       </div>
       {filteredEquipments.length > 0 && (
         <PaginationControls
+          items={filteredEquipments}
           currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
+          onPageChange={setCurrentPage}
+          itemsPerPage={ITEMS_PER_PAGE}
         />
       )}
     </Container>

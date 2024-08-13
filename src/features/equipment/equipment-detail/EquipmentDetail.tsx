@@ -73,14 +73,14 @@ const EquipmentDetail: React.FC = () => {
   return (
     <div className="h-screen flex flex-col p-4 pt-0 md:p-8">
       <EquipmentHeader title={equipment.name} />
-      <div className="flex flex-col md:flex-row flex-grow md:overflow-hidden">
-        <div className="w-full h-fit flex justify-center md:w-1/2 p-4 mt-4">
+      <div className="flex flex-col items-center xl:items-start xl:flex-row xl:overflow-y-auto">
+        <div className="w-full flex xl:w-1/2 p-4">
           <EquipmentCard
             equipment={equipment}
             onImageClick={handleImageClick}
           />
         </div>
-        <div className="w-full md:w-1/2 p-4 flex flex-col">
+        <div className="w-full h-full xl:w-1/2 p-4 flex flex-col">
           <CheckpointList checkpoints={checkpoints} />
         </div>
       </div>
