@@ -26,15 +26,7 @@ const EquipmentMedia: React.FC<EquipmentMediaProps> = ({
           objectFit: 'cover',
         }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <div className="absolute inset-0 flex items-center justify-center">
         <ZoomInIcon
           style={{
             color: 'white',

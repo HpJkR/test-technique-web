@@ -38,6 +38,10 @@ const CheckpointList: React.FC<{ checkpoints: Checkpoint[] }> = ({
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [showOnlyWithDefects]);
+
   const handleCardClick = (checkpoint: Checkpoint) => {
     setSelectedCheckpoint(checkpoint);
     setDialogOpen(true);
