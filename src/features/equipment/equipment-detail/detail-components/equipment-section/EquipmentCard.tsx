@@ -26,12 +26,12 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
   );
 
   return (
-    <Card>
+    <Card className="h-fit">
       <Grid container spacing={2}>
         <Grid
           item
           xs={12}
-          md={6}
+          xl={6}
           className="relative m-4 md:m-0 flex justify-center items-center"
         >
           <EquipmentMedia
@@ -39,7 +39,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
             onClick={() => onImageClick(equipment.photo)}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} xl={6}>
           <CardContent className="flex flex-col gap-4 p-0">
             <Typography
               variant="h5"

@@ -20,7 +20,7 @@ const CheckpointCard: React.FC<CheckpointCardProps> = ({
 }) => {
   return (
     <Card
-      className="relative p-4 h-full cursor-pointer flex flex-col justify-between"
+      className="relative p-4 h-36 cursor-pointer flex flex-col justify-between"
       onClick={() => onClick(checkpoint)}
       sx={{
         position: 'relative',
