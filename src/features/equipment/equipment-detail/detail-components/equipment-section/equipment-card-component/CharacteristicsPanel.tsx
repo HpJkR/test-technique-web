@@ -37,7 +37,7 @@ const CharacteristicsPanel: React.FC<CharacteristicsPanelProps> = ({
     <Divider />
     <Typography>
       <FingerprintTwoToneIcon className="mr-2" />
-      <strong>Numéro de série :</strong>{' '}
+      <strong>Numéro de série :</strong>
       {getValueOrUnknown(equipment.serialNumber)}
     </Typography>
     <Divider />

@@ -67,14 +67,7 @@ const EquipmentList: React.FC = () => {
             : 'Rechercher par nom, bâtiment, domaine, niveau, local, marque, modèle ou numéro de série'
         }
       />
-      <div
-        style={{
-          flex: 1,
-          overflowY: 'auto',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <div className="flex flex-1 overflow-y-auto justify-center">
         {loading ? (
           <CircularProgress />
         ) : filteredEquipments.length === 0 ? (

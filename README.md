@@ -1,3 +1,10 @@
+## Préparation de l'environnement de développement
+
+Cloner le projet : `git clone git@github.com:HpJkR/test-technique-web.git`
+
+Installer les dépendances: `npm run install`
+
+Démarrer le projet `npm run start`
 
 # __**Test technique Web**__
 
